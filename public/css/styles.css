@@ -1,0 +1,376 @@
+/*
+ * Corrected and Updated CSS:
+ * - Added hover effects for the buttons to increase size, glow, and change color.
+ * - Incorporated dark theme styling from your new code.
+ * - Maintained essential modal and form styles for JavaScript functionality.
+ */
+
+/* General body styling */
+body {
+    margin: 0;
+    font-family: sans-serif;
+    color: #fff;
+    background-color: #000;
+}
+
+/* Base button styling */
+.btn {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    /* Changed to 'all' to include size and other transformations */
+}
+
+/* Hover effects for all buttons */
+.btn:hover {
+    transform: scale(1.05);
+    /* Increases the size of the button */
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
+    /* Adds a subtle glowing effect */
+}
+
+/* Navbar styling */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 50px;
+    position: fixed;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 1000;
+    background-color: black;
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 0px;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1;
+    color: #fff;
+}
+
+.M-letter {
+    font-size: 60px;
+    color: #30d12d;
+}
+
+.nav-links ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #43e376;
+    text-decoration: underline;
+}
+
+/* Auth button styling */
+.auth-buttons .signup {
+    background-color: #30d12d;
+    color: white;
+    margin-right: 10px;
+}
+
+.auth-buttons .login {
+    background-color: transparent;
+    border: 2px solid white;
+    color: rgb(179, 244, 143);
+}
+
+/* Hover effect for auth buttons */
+.auth-buttons .signup:hover {
+    background-color: #9370DB;
+    /* A slightly lighter purple */
+}
+
+.auth-buttons .login:hover {
+    background-color: white;
+    /* Fills the background with white */
+    color: #8A2BE2;
+    /* Changes text color to purple */
+}
+
+/* Hero section styling */
+.hero-section {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+    padding: 0 50px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    z-index: 1;
+    width: 50%;
+}
+
+.hero-content h1 {
+    font-size: 60px;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.hero-content p {
+    font-size: 20px;
+    color: #ccc;
+    margin-bottom: 40px;
+}
+
+.call-to-action .add-house {
+    background-color: white;
+    color: black;
+    margin-right: 20px;
+}
+
+.call-to-action .add-flat {
+    background-color: transparent;
+    border: 2px solid white;
+    color: rgb(179, 244, 143);
+}
+
+/* Hover effects for the call-to-action buttons */
+.call-to-action .add-house:hover {
+    background-color: #9370DB;
+    /* A slightly lighter purple */
+}
+
+.call-to-action .add-flat:hover {
+    background-color: white;
+    /* Fills the background with white */
+    color: #8A2BE2;
+    /* Changes text color to purple */
+}
+
+/* My Properties section styling */
+.Myproperties-section {
+    margin-top: 20px;
+    width: 100%;
+    height: 100vh;
+    padding: 100px 50px 50px 0px;
+}
+
+.see-property {
+    font-weight: bolder;
+    background-color: #30d12d;
+    color: white;
+    width: 248px;
+    margin: 10px;
+    margin-left: 0px;
+    margin-top: 0px;
+}
+
+/* Hero background styling */
+.hero-background {
+    filter: invert(1);
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.hero-background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Chat icon styling */
+.chat-icon {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: rgb(94, 245, 232);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.chat-icon:hover {
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
+    /* Adds a subtle glowing effect on hover */
+    transform: scale(1.1);
+    /* Corrected from size() to scale() */
+}
+
+.chat-icon img {
+    width: 30px;
+    height: 30px;
+}
+
+/* --- Modal Styling (From previous version, essential for JS) --- */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: #000;
+    color: #fff;
+    margin: 10% auto;
+    padding: 2rem;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+    /* Changed shadow for dark theme */
+    position: relative;
+}
+
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: white;
+    /* Changed color for dark theme */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-step {
+    text-align: center;
+}
+
+.modal-step.hidden {
+    display: none;
+}
+
+.options-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.property-option {
+    background-color: #333;
+    /* Darker background for dark theme */
+    color: #fff;
+    border: 2px solid #555;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.property-option:hover {
+    background-color: #444;
+    border-color: #777;
+}
+
+.property-option.selected {
+    background-color: #30d12d;
+    color: #fff;
+    border-color: #30d12d;
+    box-shadow: 0 4px 8px rgba(48, 209, 45, 0.2);
+}
+
+#tenantDetailsForm,
+#utilityBillsForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+#tenantDetailsForm label,
+#utilityBillsForm label {
+    text-align: left;
+    font-weight: bold;
+    color: #ccc;
+    /* Lighter text for dark theme */
+}
+
+#tenantDetailsForm input,
+#utilityBillsForm input {
+    padding: 0.75rem;
+    background-color: #222;
+    /* Darker input background */
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.modal-footer-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+}
+
+.receipt-container {
+    padding: 1.5rem;
+    border: 1px dashed #555;
+    border-radius: 8px;
+    background-color: #111;
+    /* Dark background */
+    text-align: left;
+    margin-top: 1.5rem;
+}
+
+.receipt-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #333;
+}
+
+.receipt-total {
+    font-weight: bold;
+    font-size: 1.25rem;
+    border-top: 2px solid #30d12d;
+    padding-top: 1rem;
+    margin-top: 1rem;
+}

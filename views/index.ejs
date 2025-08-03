@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Mapper</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+        <div class="logo">
+            <div class="logo-text">
+                <div>
+                    <h1 class="M-letter">M</h1>
+                </div>
+                <div>oney<br>apper.</div>
+            </div>
+        </div>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="#hero-section">Home</a></li>
+                <li><a href="#Myproperties-section">Assets</a></li>
+                <li><a href="#">Houses</a></li>
+                <li><a href="#">Flats</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <button class="btn signup">SignUp</button>
+            <button class="btn login">Login</button>
+        </div>
+    </header>
+
+    <main id="hero-section" class="hero-section">
+        <div class="hero-content">
+            <h1>Tired of managing rent from your assets.</h1>
+            <p>We got a solution for you</p>
+            <a href="#Myproperties-section" class="btn learn-more">
+                <div class="properties">
+                    <button class="btn see-property">My Properties</button>
+                </div>
+            </a>
+            <div class="call-to-action">
+                <button class="btn add-house">Add House</button>
+                <button class="btn add-flat">Add Flat</button>
+            </div>
+        </div>
+
+        <div class="hero-background">
+            <img src="/images/wave-image.png" alt="Wavy background">
+        </div>
+    </main>
+    <div id="Myproperties-section" class="Myproperties-section">
+        <h2>My Properties</h2>
+
+    </div>
+
+    <div class="chat-icon">
+        <img src="/images/chat-icon.webp" alt="Chat with us">
+    </div>
+
+    <div id="propertyModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('propertyModal')">&times;</span>
+            <div class="modal-body">
+                <div id="step1" class="modal-step">
+                    <h3>Select your property type and number of rooms</h3>
+                    <div id="propertyOptions" class="options-container">
+                    </div>
+                    <button id="nextBtn1" class="btn" disabled>Next</button>
+                </div>
+
+                <div id="step2" class="modal-step hidden">
+                    <h3>Tenant Details</h3>
+                    <form id="tenantDetailsForm">
+                        <label for="tenantName">Tenant Name:</label>
+                        <input type="text" id="tenantName" placeholder="Enter full name" required>
+                        <label for="monthlyRent">Monthly Rent:</label>
+                        <input type="number" id="monthlyRent" placeholder="Enter monthly rent" required>
+                    </form>
+                    <div class="modal-footer-buttons">
+                        <button id="prevBtn2" class="btn prev-btn" onclick="prevStep()">Previous</button>
+                        <button id="nextBtn2" class="btn">Next</button>
+                    </div>
+                </div>
+
+                <div id="step3" class="modal-step hidden">
+                    <h3>Monthly Utility Bills</h3>
+                    <form id="utilityBillsForm">
+                        <label for="electricityRate">Electricity Rate (per unit):</label>
+                        <input type="number" id="electricityRate" placeholder="e.g., 8.50" step="0.01" required>
+                        <label for="electricityUnits">Electricity Units Used:</label>
+                        <input type="number" id="electricityUnits" placeholder="e.g., 120" required>
+                        <label for="waterUsage">Water Usage Bill:</label>
+                        <input type="number" id="waterUsage" placeholder="e.g., 500" required>
+                    </form>
+                    <div class="modal-footer-buttons">
+                        <button id="prevBtn3" class="btn prev-btn" onclick="prevStep()">Previous</button>
+                        <button id="generateReceiptBtn" class="btn">Generate Receipt</button>
+                    </div>
+                </div>
+
+                <div id="step4" class="modal-step hidden">
+                    <div id="receiptContent" class="receipt-container">
+                    </div>
+                    <div class="modal-footer-buttons">
+                        <button id="downloadReceiptBtn" class="btn">Download/Print</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/javscripts/script.js"></script>
+</body>
+
+</html>
