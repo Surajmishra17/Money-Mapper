@@ -326,19 +326,19 @@
             <p>Enter your email and password to create your account.</p>
         </div>
 
-        <form>
+        <form method="POST" action="/signup">
             <div class="input-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" value="">
+                <input type="email" id="email" name="email" value="" required>
             </div>
 
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" value="">
+                <input type="password" id="password" name="password" value="" required>
             </div>
             <div class="input-group">
                 <label for="password">Confirm Password</label>
-                <input type="password" id="Confirmpassword" value="">
+                <input type="password" id="Confirmpassword" name="confirmpassword" value="" required>
             </div>
 
 
@@ -400,7 +400,6 @@
     <script>
         // Simple form validation
         document.querySelector('form').addEventListener('submit', function (e) {
-            e.preventDefault();
 
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -409,14 +408,6 @@
             if (password !== Confirmpassword) {
                 alert('Passwords do not match! Please try again.');
                 return;
-            }
-
-            if (email && password) {
-                // In a real application, you would send this to a server
-                alert('Login successful! Redirecting to dashboard...');
-                // window.location.href = 'dashboard.html';
-            } else {
-                alert('Please fill in both email and password fields.');
             }
         });
     </script>
