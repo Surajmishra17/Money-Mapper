@@ -6,6 +6,7 @@ const signup = require('./routes/signup');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const userModel = require("./models/user");
 const port = 3000
 
 app.set('view engine', 'ejs')
@@ -20,6 +21,11 @@ app.get('/', (req, res) => {
 
 app.use('/login', login);
 app.use('/signup', signup);
+
+app.get("/logout", (req, res) => {
+    res.cookie("token", "")
+    res.redirect("/")
+})
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
