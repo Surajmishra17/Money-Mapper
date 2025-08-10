@@ -3,12 +3,11 @@ let selectedPropertyType = null;
 let selectedPropertyOption = null;
 let currentStep = 1;
 
-// Function to open the modal and initialize it for a specific property type
+// Open modal for property type
 function addProperty(type) {
     selectedPropertyType = type;
     currentStep = 1;
 
-    // Setup property options based on type
     const optionsContainer = document.getElementById('propertyOptions');
     let options = [];
 
@@ -27,30 +26,25 @@ function addProperty(type) {
         optionsContainer.appendChild(btn);
     });
 
-    // Reset form inputs for a new entry
-    document.getElementById('tenantName').value = '';
-    document.getElementById('monthlyRent').value = '';
-    document.getElementById('electricityRate').value = '';
-    document.getElementById('electricityUnits').value = '';
-    document.getElementById('waterUsage').value = '';
+    // Reset forms
+    ['tenantName', 'monthlyRent', 'electricityRate', 'electricityUnits', 'waterUsage'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
 
     document.getElementById('propertyModal').style.display = 'block';
     showStep(1);
-    document.getElementById('nextBtn1').disabled = true; // Initially disable the next button
+    document.getElementById('nextBtn1').disabled = true;
 }
 
-// Function to handle the selection of a property option
+// Select property option
 function selectPropertyOption(btn, option) {
-    document.querySelectorAll('.property-option').forEach(b => {
-        b.classList.remove('selected');
-    });
-
+    document.querySelectorAll('.property-option').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     selectedPropertyOption = option;
     document.getElementById('nextBtn1').disabled = false;
 }
 
-// Function to move to the next step in the modal
+// Step navigation
 function nextStep() {
     if (currentStep === 1) {
         if (!selectedPropertyOption) {
@@ -58,22 +52,18 @@ function nextStep() {
             return;
         }
         currentStep = 2;
-        showStep(2);
     } else if (currentStep === 2) {
         const tenantName = document.getElementById('tenantName').value;
         const monthlyRent = document.getElementById('monthlyRent').value;
-
         if (!tenantName || !monthlyRent) {
             alert('Please fill all tenant details');
             return;
         }
-
         currentStep = 3;
-        showStep(3);
     }
+    showStep(currentStep);
 }
 
-// Function to move to the previous step in the modal
 function prevStep() {
     if (currentStep > 1) {
         currentStep--;
@@ -81,33 +71,16 @@ function prevStep() {
     }
 }
 
-// Function to display a specific step of the modal
+// Show modal step
 function showStep(step) {
     for (let i = 1; i <= 4; i++) {
         const stepElement = document.getElementById(`step${i}`);
-        if (stepElement) {
-            stepElement.classList.add('hidden');
-        }
+        if (stepElement) stepElement.classList.add('hidden');
     }
-
-    const currentStepElement = document.getElementById(`step${step}`);
-    if (currentStepElement) {
-        currentStepElement.classList.remove('hidden');
-    }
-
-    // Update button visibility based on step
-    const nextBtn1 = document.getElementById('nextBtn1');
-    const nextBtn2 = document.getElementById('nextBtn2');
-    const prevBtn2 = document.getElementById('prevBtn2');
-    const prevBtn3 = document.getElementById('prevBtn3');
-
-    if (nextBtn1) nextBtn1.classList.toggle('hidden', step !== 1);
-    if (nextBtn2) nextBtn2.classList.toggle('hidden', step !== 2);
-    if (prevBtn2) prevBtn2.classList.toggle('hidden', step !== 2);
-    if (prevBtn3) prevBtn3.classList.toggle('hidden', step !== 3);
+    document.getElementById(`step${step}`).classList.remove('hidden');
 }
 
-// Function to generate the rent receipt
+// Generate receipt
 function generateReceipt() {
     const tenantName = document.getElementById('tenantName').value;
     const monthlyRent = parseFloat(document.getElementById('monthlyRent').value);
@@ -115,63 +88,112 @@ function generateReceipt() {
     const electricityUnits = parseFloat(document.getElementById('electricityUnits').value);
     const waterUsage = parseFloat(document.getElementById('waterUsage').value);
 
-    if (!electricityRate || !electricityUnits || !waterUsage) {
-        alert('Please fill all electricity and water details');
+    if (!tenantName || !monthlyRent || !electricityRate || !electricityUnits || !waterUsage) {
+        alert('Please fill all details');
         return;
     }
 
     const electricityBill = electricityRate * electricityUnits;
     const totalAmount = monthlyRent + electricityBill + waterUsage;
 
-    const receiptContent = `
+    const receiptData = {
+        tenantName,
+        propertyType: `${selectedPropertyType.charAt(0).toUpperCase() + selectedPropertyType.slice(1)} - ${selectedPropertyOption}`,
+        monthlyRent,
+        electricityRate,
+        electricityUnits,
+        waterUsage,
+        totalAmount,
+        date: new Date()
+    };
+
+    // Render receipt HTML
+    document.getElementById('receiptContent').innerHTML = `
         <h2>RENT RECEIPT</h2>
-        <div style="text-align: center; margin-bottom: 20px;">
-            <strong>Money Mapper</strong><br>
-            Date: ${new Date().toLocaleDateString()}
+        <div style="text-align:center;margin-bottom:20px;">
+            <strong>Money Mapper</strong><br>Date: ${new Date(receiptData.date).toLocaleDateString()}
         </div>
-        
-        <div class="receipt-item">
-            <span><strong>Tenant Name:</strong></span>
-            <span>${tenantName}</span>
-        </div>
-        
-        <div class="receipt-item">
-            <span><strong>Property Type:</strong></span>
-            <span>${selectedPropertyType.charAt(0).toUpperCase() + selectedPropertyType.slice(1)} - ${selectedPropertyOption}</span>
-        </div>
-        
-        <div class="receipt-item">
-            <span><strong>Monthly Rent:</strong></span>
-            <span>₹${monthlyRent.toFixed(2)}</span>
-        </div>
-        
-        <div class="receipt-item">
-            <span><strong>Electricity (${electricityUnits} units @ ₹${electricityRate}/unit):</strong></span>
-            <span>₹${electricityBill.toFixed(2)}</span>
-        </div>
-        
-        <div class="receipt-item">
-            <span><strong>Water Usage:</strong></span>
-            <span>₹${waterUsage.toFixed(2)}</span>
-        </div>
-        
-        <div class="receipt-item receipt-total">
-            <span><strong>TOTAL AMOUNT:</strong></span>
-            <span><strong>₹${totalAmount.toFixed(2)}</strong></span>
-        </div>
-        
-        <div style="text-align: center; margin-top: 30px; font-size: 12px; color: #666;">
-            Generated by Money Mapper<br>
-            Thank you for using our service!
-        </div>
+        <div class="receipt-item"><span><strong>Tenant Name:</strong></span><span>${tenantName}</span></div>
+        <div class="receipt-item"><span><strong>Property Type:</strong></span><span>${receiptData.propertyType}</span></div>
+        <div class="receipt-item"><span><strong>Monthly Rent:</strong></span><span>₹${monthlyRent.toFixed(2)}</span></div>
+        <div class="receipt-item"><span><strong>Electricity (${electricityUnits} units @ ₹${electricityRate}/unit):</strong></span><span>₹${electricityBill.toFixed(2)}</span></div>
+        <div class="receipt-item"><span><strong>Water Usage:</strong></span><span>₹${waterUsage.toFixed(2)}</span></div>
+        <div class="receipt-item receipt-total"><span><strong>TOTAL AMOUNT:</strong></span><span><strong>₹${totalAmount.toFixed(2)}</strong></span></div>
+        <div style="text-align:center;margin-top:30px;font-size:12px;color:#666;">Generated by Money Mapper<br>Thank you for using our service!</div>
     `;
 
-    document.getElementById('receiptContent').innerHTML = receiptContent;
     currentStep = 4;
     showStep(4);
+
+    // Save receipt to backend
+    fetch('/receipt/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(receiptData)
+    })
+        .then(res => res.json())
+        .then(data => {
+            console.log("Receipt saved:", data);
+            addPropertyCard(data);
+        })
+        .catch(err => console.error("Error saving receipt:", err));
 }
 
-// Function to download/print the receipt
+// Add property card to DOM
+function addPropertyCard(r) {
+    const container = document.querySelector('.Myproperties-section');
+    const card = document.createElement('div');
+    card.classList.add('property-card');
+    card.innerHTML = `
+        <h3>${r.tenantName}</h3>
+        <p><strong>Property:</strong> ${r.propertyType}</p>
+        <p><strong>Monthly Rent:</strong> ₹${r.monthlyRent}</p>
+        <p><strong>Total Amount:</strong> ₹${r.totalAmount}</p>
+        <p><strong>Date:</strong> ${new Date(r.date).toLocaleDateString()}</p>
+        <button onclick="window.open('/receipt/download/${r._id}')">Download PDF</button>
+    `;
+    container.appendChild(card);
+}
+
+// Load saved properties from backend
+async function loadMyProperties() {
+    try {
+        const res = await fetch('/receipt/all');
+        if (!res.ok) {
+            console.log("User not logged in or no receipts");
+            document.querySelector('.Myproperties-section').innerHTML = "<p style='color:white;'>No receipts found.</p>";
+            return;
+        }
+
+        const receipts = await res.json();
+        const container = document.querySelector('.Myproperties-section');
+        container.innerHTML = ''; // Clear old cards
+
+        if (receipts.length === 0) {
+            container.innerHTML = "<p style='color:white;'>No receipts found.</p>";
+            return;
+        }
+
+        receipts.forEach(r => {
+            const card = document.createElement('div');
+            card.classList.add('property-card');
+            card.innerHTML = `
+                <h3 style="color:green;">${r.tenantName || 'N/A'}</h3>
+                <p><strong>Property:</strong> ${r.propertyType || 'N/A'}</p>
+                <p><strong>Monthly Rent:</strong> ₹${r.monthlyRent || 0}</p>
+                <p><strong>Total Amount:</strong> ₹${r.totalAmount || 0}</p>
+                <p><strong>Date:</strong> ${r.date ? new Date(r.date).toLocaleDateString() : 'N/A'}</p>
+                <button onclick="window.open('/receipt/download/${r._id}')">Download PDF</button>
+            `;
+            container.appendChild(card);
+        });
+    } catch (err) {
+        console.error("Error loading properties:", err);
+    }
+}
+
+
+// Download receipt as PDF
 function downloadReceipt() {
     const receiptContent = document.getElementById('receiptContent').innerHTML;
     const printWindow = window.open('', '_blank');
@@ -186,74 +208,61 @@ function downloadReceipt() {
                     h2 { color: #30d12d; text-align: center; }
                 </style>
             </head>
-            <body>
-                ${receiptContent}
-            </body>
+            <body>${receiptContent}</body>
         </html>
     `);
     printWindow.document.close();
     printWindow.print();
 }
 
-// Function to close any modal and reset its state
+// Close modal
 function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
     resetPropertyModal();
 }
 
-// Function to reset the property modal's state
+// Reset modal state
 function resetPropertyModal() {
     selectedPropertyType = null;
     selectedPropertyOption = null;
     currentStep = 1;
     document.getElementById('nextBtn1').disabled = true;
-
-    // Reset form fields
-    const formFields = ['tenantName', 'monthlyRent', 'electricityRate', 'electricityUnits', 'waterUsage'];
-    formFields.forEach(id => {
-        const element = document.getElementById(id);
-        if (element) {
-            element.value = '';
-        }
-    });
-
-    // Remove selected class from all option buttons
-    document.querySelectorAll('.property-option').forEach(btn => {
-        btn.classList.remove('selected');
+    document.querySelectorAll('.property-option').forEach(btn => btn.classList.remove('selected'));
+    ['tenantName', 'monthlyRent', 'electricityRate', 'electricityUnits', 'waterUsage'].forEach(id => {
+        document.getElementById(id).value = '';
     });
 }
 
-// Event listeners for the main page buttons
+document.addEventListener('DOMContentLoaded', function () {
+    const logoutBtn = document.getElementById('logout');
+
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', () => {
+            // Clear receipts from UI
+            const container = document.querySelector('.Myproperties-section');
+            if (container) {
+                container.innerHTML = '';
+            }
+
+            // Optionally clear any stored state in JS
+            localStorage.removeItem('myReceipts');
+        });
+    }
+});
+
+
+// Event listeners
 document.addEventListener('DOMContentLoaded', function () {
     console.log('Money Mapper App initialized');
-
-    const addHouseBtn = document.querySelector('.btn.add-house');
-    const addFlatBtn = document.querySelector('.btn.add-flat');
-
-    if (addHouseBtn) {
-        addHouseBtn.addEventListener('click', () => addProperty('house'));
-    }
-
-    if (addFlatBtn) {
-        addFlatBtn.addEventListener('click', () => addProperty('flat'));
-    }
-
-    // Event listeners for modal buttons (assuming they exist)
-    const nextBtn1 = document.getElementById('nextBtn1');
-    const nextBtn2 = document.getElementById('nextBtn2');
-    const prevBtn2 = document.getElementById('prevBtn2');
-    const prevBtn3 = document.getElementById('prevBtn3');
-    const generateReceiptBtn = document.getElementById('generateReceiptBtn');
-    const downloadReceiptBtn = document.getElementById('downloadReceiptBtn');
-    const closeModalBtn = document.querySelector('#propertyModal .close');
-
-    if (nextBtn1) nextBtn1.addEventListener('click', nextStep);
-    if (nextBtn2) nextBtn2.addEventListener('click', nextStep);
-    if (prevBtn2) prevBtn2.addEventListener('click', prevStep);
-    if (prevBtn3) prevBtn3.addEventListener('click', prevStep);
-    if (generateReceiptBtn) generateReceiptBtn.addEventListener('click', generateReceipt);
-    if (downloadReceiptBtn) downloadReceiptBtn.addEventListener('click', downloadReceipt);
-    if (closeModalBtn) closeModalBtn.addEventListener('click', () => closeModal('propertyModal'));
+    document.querySelector('.btn.add-house')?.addEventListener('click', () => addProperty('house'));
+    document.querySelector('.btn.add-flat')?.addEventListener('click', () => addProperty('flat'));
+    document.getElementById('nextBtn1')?.addEventListener('click', nextStep);
+    document.getElementById('nextBtn2')?.addEventListener('click', nextStep);
+    document.getElementById('prevBtn2')?.addEventListener('click', prevStep);
+    document.getElementById('prevBtn3')?.addEventListener('click', prevStep);
+    document.getElementById('generateReceiptBtn')?.addEventListener('click', generateReceipt);
+    document.getElementById('downloadReceiptBtn')?.addEventListener('click', downloadReceipt);
+    document.querySelector('#propertyModal .close')?.addEventListener('click', () => closeModal('propertyModal'));
 
     // Close modal when clicking outside
     window.onclick = function (event) {
@@ -262,4 +271,7 @@ document.addEventListener('DOMContentLoaded', function () {
             closeModal('propertyModal');
         }
     };
+
+    // Load saved properties
+    loadMyProperties();
 });

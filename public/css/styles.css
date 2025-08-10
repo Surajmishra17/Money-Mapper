@@ -374,3 +374,30 @@ body {
     padding-top: 1rem;
     margin-top: 1rem;
 }
+
+.property-card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    background: #000000;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.property-card h3 {
+    margin-top: 0;
+    color: #30d12d;
+}
+
+.property-card button {
+    background: #30d12d;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.property-card button:hover {
+    background: #28b425;
+}

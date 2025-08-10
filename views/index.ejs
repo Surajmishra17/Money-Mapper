@@ -29,9 +29,17 @@
             </ul>
         </nav>
         <div class="auth-buttons">
-            <button class="btn signup" onclick="window.location.href='/signup'">SignUp</button>
-            <button class="btn login" onclick="window.location.href='/login'">Login</button>
+            <% if (user) { %>
+                <span><%= %></span>
+                <a href="/logout">
+                    <button class="btn login" id="logout">Logout</button>
+                </a>
+                <% } else { %>
+                    <button class="btn signup" onclick="window.location.href='/signup'">SignUp</button>
+                    <button class="btn login" onclick="window.location.href='/login'">Login</button>
+                    <% } %>
         </div>
+
     </header>
 
     <main id="hero-section" class="hero-section">

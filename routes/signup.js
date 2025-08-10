@@ -19,9 +19,13 @@ router.post('/', async(req, res) => {
             })
 
             let token = jwt.sign({ email }, "shhhhhhhhhh")
-            res.cookie("token", token)
+            res.cookie("token", token, {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'strict'
+            });
 
-            res.send(createdUser)
+            res.redirect('/');
         })
     })
 });
