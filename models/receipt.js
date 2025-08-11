@@ -1,4 +1,3 @@
-// models/Receipt.js
 const mongoose = require('mongoose');
 
 const ReceiptSchema = new mongoose.Schema({
@@ -9,7 +8,11 @@ const ReceiptSchema = new mongoose.Schema({
     electricityUnits: Number,
     waterUsage: Number,
     totalAmount: Number,
-    date: { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user'
+    }
 });
 
 module.exports = mongoose.model('Receipt', ReceiptSchema);

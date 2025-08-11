@@ -30,7 +30,9 @@
         </nav>
         <div class="auth-buttons">
             <% if (user) { %>
-                <span><%= %></span>
+                <span>
+                    <%= %>
+                </span>
                 <a href="/logout">
                     <button class="btn login" id="logout">Logout</button>
                 </a>
@@ -52,8 +54,18 @@
                 </div>
             </a>
             <div class="call-to-action">
-                <button class="btn add-house">Add House</button>
-                <button class="btn add-flat">Add Flat</button>
+                <!-- This is the new, corrected version -->
+                <% if (user) { %>
+                    <!-- If user is logged in, show the normal buttons that open the modal -->
+                    <button class="btn add-house">Add House</button>
+                    <button class="btn add-flat">Add Flat</button>
+                    <% } else { %>
+                        <!-- If user is NOT logged in, show buttons that redirect to the login page -->
+                        <button class="btn add-house1" onclick="window.location.href='/login'">Add House</button>
+                        <button class="btn add-flat1" onclick="window.location.href='/login'">Add Flat</button>
+                        <% } %>
+
+
             </div>
         </div>
 
