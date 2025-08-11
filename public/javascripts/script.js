@@ -159,31 +159,33 @@ function addPropertyCard(r) {
 async function loadMyProperties() {
     try {
         const res = await fetch('/receipt/all');
-        if (!res.ok) {
-            console.log("User not logged in or no receipts");
-            document.querySelector('.Myproperties-section').innerHTML = "<p style='color:white;'>No receipts found.</p>";
+        if (res.status === 401) { // Handle unauthorized case
+            const container = document.querySelector('.Myproperties-section');
+            container.innerHTML = "<h3>Please log in to view your properties.</h3>";
             return;
         }
-
+        if (!res.ok) {
+            console.log("User not logged in or no receipts");
+            document.querySelector('.Myproperties-section').innerHTML = "<h3>No receipts found.</h3>";
+            return;
+        }
         const receipts = await res.json();
         const container = document.querySelector('.Myproperties-section');
         container.innerHTML = ''; // Clear old cards
-
         if (receipts.length === 0) {
-            container.innerHTML = "<p style='color:white;'>No receipts found.</p>";
+            container.innerHTML = "<h3>No receipts found.</h3>";
             return;
         }
-
         receipts.forEach(r => {
             const card = document.createElement('div');
             card.classList.add('property-card');
             card.innerHTML = `
-                <h3 style="color:green;">${r.tenantName || 'N/A'}</h3>
+                <h4>${r.tenantName}</h4>
                 <p><strong>Property:</strong> ${r.propertyType || 'N/A'}</p>
                 <p><strong>Monthly Rent:</strong> ₹${r.monthlyRent || 0}</p>
                 <p><strong>Total Amount:</strong> ₹${r.totalAmount || 0}</p>
-                <p><strong>Date:</strong> ${r.date ? new Date(r.date).toLocaleDateString() : 'N/A'}</p>
-                <button onclick="window.open('/receipt/download/${r._id}')">Download PDF</button>
+                <p><strong>Date:</strong> ${new Date(r.date).toLocaleDateString()}</p>
+                <button onclick="window.location.href='/receipt/download/${r._id}'">Download</button>
             `;
             container.appendChild(card);
         });
@@ -191,6 +193,10 @@ async function loadMyProperties() {
         console.error("Error loading properties:", err);
     }
 }
+
+// Call this function when the page loads
+document.addEventListener('DOMContentLoaded', loadMyProperties);
+
 
 
 // Download receipt as PDF
